@@ -3,6 +3,7 @@ using MessageService.DTO;
 using MessageService.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace MessageService.Controllers
 {
@@ -21,7 +22,7 @@ namespace MessageService.Controllers
         [HttpGet(template: "getmessages")]
         public ActionResult<IEnumerable<Message>> GetMessages()
         {
-            var userId = Guid.Parse(User.Identity.Name);
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.Email));
             var messages = _messageRepository.GetMessageForUser(userId);
             return Ok(messages);
         }
@@ -29,7 +30,7 @@ namespace MessageService.Controllers
         [HttpPost(template: "sendmessage")]
         public ActionResult<IEnumerable<Message>> SendMessage(MessageViewModel messageViewModel)
         {
-            var senderId = Guid.Parse(User.Identity.Name);
+            var senderId = Guid.Parse(User.FindFirstValue(ClaimTypes.Email));
             var message = new Message
             {
                 SenderId = senderId,
