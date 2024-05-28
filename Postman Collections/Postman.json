@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "New Request",
+			"name": "Login",
 			"id": "757fa8f2-1587-4d48-aef6-e0f11005aa92",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
