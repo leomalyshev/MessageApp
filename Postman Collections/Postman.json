@@ -50,6 +50,18 @@
 				"header": []
 			},
 			"response": []
+		},
+		{
+			"name": "GetUsers",
+			"id": "22dc1d35-2b71-47a9-ba81-94edea6abb2f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
 		}
 	]
 }
