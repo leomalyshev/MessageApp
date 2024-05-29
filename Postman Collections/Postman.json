@@ -116,8 +116,20 @@
 							"response": []
 						},
 						{
-							"name": "Admins Copy",
+							"name": "Users",
 							"id": "b1a617a0-ae0d-4e42-9b2d-986ccfa00f16",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "GetCurrentUserId",
+							"id": "f5d64f02-72db-44e8-b362-6eb3418b2991",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -132,6 +144,11 @@
 				}
 			],
 			"id": "323100a8-0f69-4d08-a56c-bb373f44e1a1"
+		},
+		{
+			"name": "New Folder",
+			"item": [],
+			"id": "c3276384-29bf-4739-9d76-303a1ae7b3c4"
 		}
 	]
 }
