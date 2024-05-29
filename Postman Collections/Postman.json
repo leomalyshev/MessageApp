@@ -147,7 +147,54 @@
 		},
 		{
 			"name": "MessageService",
-			"item": [],
+			"item": [
+				{
+					"name": "MessageController",
+					"item": [
+						{
+							"name": "GetMessages",
+							"id": "f5659c54-0f07-4e33-b962-fafa5d8e9fd1",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "SendMessage",
+							"id": "17532387-15c7-40ad-985f-ceac6d3fd4c8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNyc2Etc2hhMjU2IiwidHlwIjoiSldUIn0.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBhZG1pbi5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsIklkIjoiMzVhMzEwMzUtYWVhZi00NzcyLTg3ZjEtODZlNDk5OTU0N2VhIiwiZXhwIjoxNzE3MDA4NjAyLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjYxIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2MSJ9.Q8lgULU_KXseoDafUUDSLNXW_hFXVcBAhzbzuPHjfomDoPKnIQjKZYsuVpvK1yqzSlxCdAAXCJ1bvGRH3xCY_IakD9vt9sydR0XAHEBGqkgXewmOSeL6JY3KewVt1fszByHKa26sF6dMX1G64ClrgsV0h8WQBJSubh_IhtCkWpjPu6Od7koBcf9KUQAlOc6FyuDNSIHXqrkVR2clBby4hSJe0TW-zrFaGdgahnK_xCk9M6rxv7DGgVnzEe5SvCg7YkksQEIzmqj2yZajqT18jcV8HSzEDFW7B952St5S1CYRCFEevHKMbOYVVRnPAJZWXg1UJXpHNNWwPG0JMhmECg"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"recipientId\": \"29502d81-ccfd-4cc3-b676-92e15584f5c7\",\r\n  \"content\": \"Привет, Славик!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://localhost:7239/api/MessageContoller/sendmessage"
+							},
+							"response": []
+						}
+					],
+					"id": "1b711231-092b-4d3b-88c9-1026e38e69f9"
+				}
+			],
 			"id": "c3276384-29bf-4739-9d76-303a1ae7b3c4"
 		}
 	]
