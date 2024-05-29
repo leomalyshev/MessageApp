@@ -38,6 +38,18 @@
 				"header": []
 			},
 			"response": []
+		},
+		{
+			"name": "AddUser",
+			"id": "860bbdc8-4745-4db1-ba16-7567f1d495ef",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
 		}
 	]
 }
