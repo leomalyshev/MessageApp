@@ -9,20 +9,26 @@ using UserService.Repository;
 namespace UserService.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("login")]
     public class LoginController(IUserRepository userRepository, ITokenService tokenService) : ControllerBase
     {
         [AllowAnonymous]
         [HttpPost]
+        [Route("login")]
         public ActionResult Login([FromBody] LoginViewModel userLogin)
         {
             try
             {
-                var roleId = userRepository.UserCheck(userLogin.Email, userLogin.Password);
+                var user = userRepository.UserCheck(userLogin.Email, userLogin.Password);
 
-                var user = new LoginViewModel() { Email = userLogin.Email, UserRole = roleId };
+                var roleId = (RoleType)user.RoleId;
 
-                var token = tokenService.GenerateToken(user);
+                var loginUser = new LoginViewModel()
+                {
+                    Email = userLogin.Email, UserRole = roleId, Id = user.Id
+                };
+
+                var token = tokenService.GenerateToken(loginUser);
                 return Ok(token);
             }
             catch (Exception e)
@@ -34,6 +40,8 @@ namespace UserService.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("addadmin")]
+        //"email": "admin@admin.com",
+        //"password": "admin",
         public ActionResult AddAdmin([FromBody] LoginViewModel userLogin)
         {
             try
@@ -44,6 +52,7 @@ namespace UserService.Controllers
             {
                 return StatusCode(500, e.Message);
             }
+
             return Ok();
         }
 
@@ -60,8 +69,33 @@ namespace UserService.Controllers
             {
                 return StatusCode(500, e.Message);
             }
+
             return Ok();
         }
 
+        [HttpGet]
+        [Route("getusers")]
+        [Authorize(Roles = "Admin, User")]
+        public IEnumerable<LoginViewModel> GetUsers()
+        {
+            return userRepository.GetUsers();
+        }
+
+        [HttpPost]
+        [Route("deleteuser")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult UserDelete([FromBody] LoginViewModel userLogin)
+        {
+            try
+            {
+                userRepository.UserDelete(userLogin.Email);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+
+            return Ok();
+        }
     }
 }

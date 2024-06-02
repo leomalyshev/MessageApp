@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  messageservice:
+    image: ${DOCKER_REGISTRY-}messageservice_my
+    build:
+      context: MessageService
+      dockerfile: Dockerfile
+
+  userservice:
+    image: ${DOCKER_REGISTRY-}userservice_my
+    build:
+      context: UserService
+      dockerfile: Dockerfile   
+
+  unitedservice:
+    image: ${DOCKER_REGISTRY-}unitedservice
+    build:
+      context: .
+      dockerfile: UnitedService/Dockerfile
+

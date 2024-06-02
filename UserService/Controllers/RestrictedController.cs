@@ -7,8 +7,8 @@ using UserService.Model;
 namespace UserService.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class RestrictedContoller : ControllerBase
+    [Route("restricted")]
+    public class RestrictedController : ControllerBase
     {
         [HttpGet]
         [Route("Admins")]
@@ -26,6 +26,15 @@ namespace UserService.Controllers
         {
             var currentUser = GetCurrentUser();
             return Ok($"Hello, {currentUser}! You are an user.");
+        }
+
+        [HttpGet]
+        [Route("getcurrentuserid")]
+        [Authorize(Roles = "Admin, User")]
+        public IActionResult GetUserId()
+        {
+            var userId = GetCurrentUserId();
+            return Ok($"id = {userId}");
         }
 
         private User GetCurrentUser()
@@ -54,6 +63,19 @@ namespace UserService.Controllers
                     };
                 }
             }
+
+            return null;
+        }
+
+        private string GetCurrentUserId()
+        {
+            var userIdClaimValue = User.FindFirstValue("Id");
+            if (userIdClaimValue != null)
+            {
+                var userId = Guid.Parse(userIdClaimValue);
+                return userId.ToString();
+            }
+
             return null;
         }
     }

@@ -1,0 +1,73 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/message/{method}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "messageservice_container",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/message/{method}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "SwaggerKey": "message"
+    },
+    {
+      "DownstreamPathTemplate": "/login/{method}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice_container",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/login/{method}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "SwaggerKey": "user"
+    },
+    {
+      "DownstreamPathTemplate": "/restricted/{method}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice_container",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/restricted/{method}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "SwaggerKey": "user"
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:8021",
+    "HttpHandlerOptions": {
+      "DangerousAcceptAnyServerCertificateValidator": true
+    }
+  },
+  "SwaggerEndPoints": [
+    {
+      "Key": "message",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "Message API",
+          "Version": "v1",
+          "Url": "http://messageservice_container:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "user",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "User API",
+          "Version": "v1",
+          "Url": "http://userservice_container:80/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
+}

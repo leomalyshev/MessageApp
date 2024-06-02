@@ -1,0 +1,111 @@
+version: '2.8'
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  pgdata:
+  usersecrets:
+  httpscerts:
+
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "TestDB"
+      POSTGRES_USER: "test"
+      POSTGRES_PASSWORD: "Test1234"
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:8.5
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "test@mail.ru"
+      PGADMIN_DEFAULT_PASSWORD: "Test1234"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - ./private/var/lib/pgadmin:/var/lib/pgadmin
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    networks:
+      - postgres
+
+  userservice:
+    container_name: userservice_container
+    image: userservice
+    environment:
+      ASPNETCORE_URLS: "https://+;http://+"
+      ASPNETCORE_HTTPS_PORT: 8001
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "35e0428e-975e-469c-b54c-6169a47d6020"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "/app/.aspnet/https/UserService.pfx"
+    volumes:
+      - type: bind
+        source: ${APPDATA}/ASP.NET/Https
+        target: /app/.aspnet/https
+      - type: bind
+        source: ${APPDATA}/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+    ports:
+      - "8000:80"
+      - "8001:443"
+    networks:
+      - postgres
+
+  messageservice:
+    container_name: messageservice_container
+    image: messageservice
+    environment:
+      ASPNETCORE_URLS: "https://+;http://+"
+      ASPNETCORE_HTTPS_PORT: 8001
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "0ad0d213-eb91-4519-b61c-af9b8b84d05f"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "/app/.aspnet/https/MessageService.pfx"
+    volumes:
+      - type: bind
+        source: ${APPDATA}/ASP.NET/Https
+        target: /app/.aspnet/https
+      - type: bind
+        source: ${APPDATA}/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+    ports:
+      - "8010:80"
+      - "8011:443"
+    networks:
+      - postgres
+
+  unitedservice:
+    container_name: unitedservice_container
+    image: unitedservice
+    depends_on:
+      - userservice
+      - messageservice
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: "https://+;http://+"
+      ASPNETCORE_HTTPS_PORT: 8001
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "82325c0d-81e3-452e-8a1f-de048078acb4"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "/app/.aspnet/https/UnitedService.pfx"
+    volumes:
+      - type: bind
+        source: ${APPDATA}/ASP.NET/Https
+        target: /app/.aspnet/https
+      - type: bind
+        source: ${APPDATA}/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+      - ./ocelot.json:/app/ocelot.json
+    ports:
+      - "8020:80"
+      - "8021:443"
+    networks:
+      - postgres
+
+
+

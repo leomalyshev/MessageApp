@@ -8,6 +8,14 @@ namespace UserService.Context
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
 
+        public UserContext()
+        {
+        }
+
+        public UserContext(DbContextOptions options) : base(options)
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(entity =>
@@ -21,6 +29,7 @@ namespace UserService.Context
                 entity.Property(e => e.Email).HasColumnName("email");
                 entity.Property(e => e.Password).HasColumnName("password");
                 entity.Property(e => e.RoleId).HasConversion<int>();
+                entity.HasOne(u => u.Role).WithMany(r => r.Users).HasForeignKey(u => u.RoleId);
             });
 
             modelBuilder.Entity<Role>().Property(e => e.RoleId).HasConversion<int>();

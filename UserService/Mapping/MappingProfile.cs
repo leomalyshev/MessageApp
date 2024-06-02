@@ -8,43 +8,12 @@ namespace UserService.Mapping
 {
     public class MappingProfile : Profile
     {
-
         public MappingProfile()
         {
-            CreateMap<RoleType, RoleId>()
-                .ConvertUsing(src => ConvertRoleTypeToRoleId(src));
-
-            CreateMap<RoleId, RoleType>()
-                .ConvertUsing(src => ConvertRoleIdToRoleType(src));
+            CreateMap<User, LoginViewModel>()
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.UserRole, opt => opt.MapFrom(src => (RoleType)src.RoleId));
         }
-
-        private RoleId ConvertRoleTypeToRoleId(RoleType roleType)
-        {
-            // Ваша логика для преобразования RoleType в RoleId
-            switch (roleType)
-            {
-                case RoleType.Admin:
-                    return RoleId.Admin;
-                case RoleType.User:
-                    return RoleId.User;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(roleType), roleType, null);
-            }
-        }
-
-        private RoleType ConvertRoleIdToRoleType(RoleId roleId)
-        {
-            // Ваша логика для преобразования RoleId в RoleType
-            switch (roleId)
-            {
-                case RoleId.Admin:
-                    return RoleType.Admin;
-                case RoleId.User:
-                    return RoleType.User;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(roleId), roleId, null);
-            }
-        }
-
     }
 }

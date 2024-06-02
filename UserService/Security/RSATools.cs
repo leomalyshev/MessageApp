@@ -4,19 +4,21 @@ namespace UserService.Security
 {
     public static class RSATools
     {
-        public static RSA GetPrivateKey()
+        public static RSA GetPrivateKey(IConfiguration configuration)
         {
-            var f = File.ReadAllText("rsa/private_key.pem");
+            var privateKeyPem = configuration["Keys:PrivateKey"];
+            Console.WriteLine($"Public Key: {privateKeyPem}"); // Временный вывод для отладки
             var rsa = RSA.Create();
-            rsa.ImportFromPem(f);
+            rsa.ImportFromPem(privateKeyPem);
             return rsa;
         }
 
-        public static RSA GetPublicKey()
+        public static RSA GetPublicKey(IConfiguration configuration)
         {
-            var f = File.ReadAllText("rsa/public_key.pem");
+            var publicKeyPem = configuration["Keys:PublicKey"];
+            Console.WriteLine($"Public Key: {publicKeyPem}"); // Временный вывод для отладки
             var rsa = RSA.Create();
-            rsa.ImportFromPem(f);
+            rsa.ImportFromPem(publicKeyPem);
             return rsa;
         }
     }
