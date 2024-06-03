@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>4c229f31-5fd7-459f-bd1a-19e1fa6fe8f0</ProjectGuid>
+    <ProjectGuid>809a4590-050c-43ee-9480-9f8569745368</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>messageservice</DockerServiceName>

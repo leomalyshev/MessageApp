@@ -1,21 +1,46 @@
 version: '3.4'
 
+volumes:
+  pgdata:
+  usersecrets:
+  httpscerts:
+
 services:
   messageservice:
-    image: ${DOCKER_REGISTRY-}messageservice_my
+    image: ${DOCKER_REGISTRY-}messageservice
     build:
       context: MessageService
       dockerfile: Dockerfile
-
   userservice:
-    image: ${DOCKER_REGISTRY-}userservice_my
+    image: ${DOCKER_REGISTRY-}userservice
     build:
       context: UserService
-      dockerfile: Dockerfile   
-
+      dockerfile: Dockerfile
   unitedservice:
     image: ${DOCKER_REGISTRY-}unitedservice
     build:
-      context: .
-      dockerfile: UnitedService/Dockerfile
-
+      context: UnitedService
+      dockerfile: Dockerfile
+  postgres:
+    container_name: postgres_container
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "TestDB"
+      POSTGRES_USER: "test"
+      POSTGRES_PASSWORD: "Test1234"
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:8.5
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "test@mail.ru"
+      PGADMIN_DEFAULT_PASSWORD: "Test1234"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - ./private/var/lib/pgadmin:/var/lib/pgadmin
+    ports:
+      - "8080:80"
+    restart: unless-stopped
